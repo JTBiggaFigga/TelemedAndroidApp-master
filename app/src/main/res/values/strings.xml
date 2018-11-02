@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">mCare</string>
+
+    <string name="auth0_client_id">cUV13sDbkOCQFuho580kh94IEcMeUi30</string>
+    <string name="auth0_domain">qubitmed.auth0.com</string>
+    <string name="com_auth0_lock_header_title">mWellness</string>
+    <string name="auth0_scheme">a0cuv13sdbkocqfuho580kh94iecmeui30</string>
+
+</resources>

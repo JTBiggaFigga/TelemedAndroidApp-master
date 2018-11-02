@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script>
+            
+            function startThis() {
+                var video = document.getElementById('nebvid');
+
+                var videoStartTime = 29;
+                var durationTime = 131;
+                //var durationTime = 10;
+
+                video.currentTime = videoStartTime;
+
+                video.addEventListener("timeupdate", function() {
+                    console.log(video.currentTime);
+                    if(video.currentTime > (videoStartTime + durationTime)) {
+                        console.log("Stopping ... ");
+                        video.pause();
+                    }
+                });
+
+            }
+
+        </script>
+    </head>
+    <body onload="startThis()">
+        <video id="nebvid" width="100%" height="100%" controls  controlsList="nodownload noremoteplayback">
+            <source src="nebulizer.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </body>
+</html>

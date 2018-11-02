@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="320dip"
+        android:layout_height="285dip"
+        android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/mesg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scanning ... "
+        android:textAlignment="center"
+        android:gravity="center"
+        android:padding="10dip"
+        android:textStyle="italic"/>
+
+
+
+    <!--Horizontal line-->
+    <!--<View-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="2dip"-->
+        <!--android:layout_marginLeft="10dip"-->
+        <!--android:layout_marginRight="10dip"-->
+        <!--android:background="#222"-->
+        <!--android:padding="10dip" />-->
+
+
+    <!--Question #0-->
+    <TextView
+        android:id="@+id/q0Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Have you taken your meals?"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:padding="10dip"/>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/q0Switch"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textOff="No"
+        android:textOn="Yes"
+        android:padding="10dip"
+        android:paddingBottom="20dip"/>
+
+
+
+
+    <!--Question #1-->
+    <TextView
+        android:id="@+id/q1Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Have you taken your medication?"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:padding="10dip"/>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/q1Switch"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textOff="No"
+        android:textOn="Yes"
+        android:padding="10dip"
+        android:paddingBottom="20dip"/>
+
+
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitBtn"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="Submit"
+        android:layout_marginTop="20dip"
+        android:padding="20dip"/>
+
+
+
+</LinearLayout>

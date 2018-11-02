@@ -1,0 +1,70 @@
+<style>
+.centered, mat-spinner {
+    margin: auto;
+}
+</style>
+
+<div #chfCheckup [style.width]="width" [style.height]="height">
+  
+  <div *ngIf="!vitalsAvailable">
+    <h3>Fetching Latest Vitals Please Wait ... </h3>
+    <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+  </div>
+  
+  <table *ngIf="!checkupCompleted && currQuestion!=undefined" width="100%" height="100%">
+    <tr>
+      <td width="50%">
+        <b>Check Up!</b>
+        <h3>{{currQuestion.long_text}}</h3>
+        <button mat-raised-button color="primary" (click)="setAnswer(false, currQuestion.id)">No</button>
+        &nbsp;
+        <button mat-raised-button color="warn" (click)="setAnswer(true, currQuestion.id)">Yes</button>
+        
+        <div style="height:15px;"></div>
+        
+        <button mat-raised-button  (click)="cancelCheckup()">Cancel Checkup</button>
+        
+      </td>
+      <td width="50%">
+        <div valign="top" [style.height]="height" style="display:block;text-align:left;overflow-y:auto;vertical-align:top;">
+              <b>Answers ...</b>
+              <div *ngFor="let ans of answerValues">
+                {{ans.question.short_text}}: {{ans.answer}}
+              </div>
+
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="checkupCompleted">
+
+      <div *ngIf="instructionList.length == 0">
+        <h3>Everything looks good!</h3>
+        <i class="fas fa-thumbs-up"></i>
+      </div>
+
+      <div *ngIf="instructionList.length > 0">
+        <h4>Instructions For The Patient</h4>
+
+        <div [style.width]="width*0.5" class="centered">
+          <div style="font-size:120%; text-align:center;" *ngFor="let instruction of instructionList">
+            {{instruction.text}}
+            <span *ngIf="instruction.type=='video'">
+              <button mat-raised-button (click)="openYoutubeDialog(instruction.obj)">
+                Watch How To: <i class="fab fa-youtube"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+
+
+      <br />
+      <button mat-raised-button  (click)="cancelCheckup()">Close</button>
+
+  </div>
+  
+
+</div>

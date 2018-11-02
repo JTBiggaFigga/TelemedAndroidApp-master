@@ -1,0 +1,563 @@
+<style>
+
+    .spacer {
+        flex: 1 1 auto;
+    }
+
+    button {
+        z-index: 0;
+    }
+    .vitalDeviceInfo-btn {
+        width:100%;
+    }
+
+    .devices-td {
+        padding:5px;
+        overflow-y:auto;
+        overflow-x:none;
+    }
+    .tv-td {
+        height:100%;
+
+        border-style:solid;
+        border-color:black;
+        border-width:0px;
+
+    }
+
+    .tv-top-div {
+        margin: auto;
+        width:95%;
+        height:80%;
+        min-height:80%;
+        padding:5px;
+
+        overflow-y:auto;
+        text-align:center;
+
+        border-style:solid;
+        border-color:grey;
+        border-width:0px;
+    }
+    .tv-mesg-div {
+        margin: auto;
+        margin-top: 6px;
+        width:95%;
+        height:20%;
+        padding:10px;
+
+        text-align:center;
+        color:black;
+
+        border-radius: 10px;
+
+        box-shadow: 0 -5px 10px -2px rgba(182, 182, 182, 0.75);
+
+        font-size: 90%;
+
+        background: linear-gradient(180deg, #E8EAF6, white);
+
+        /*border-style:solid;
+        border-color:green;
+        border-width:0px;*/
+    }
+
+    .bottom-shadow {
+        box-shadow: 0px 4px 5px 3px rgba(128, 128, 128, 0.5);
+    }
+
+    .tv-div-div {
+        margin: auto;
+        vertical-align: middle;
+        text-align:center;
+
+        border-style:solid;
+        border-color:red;
+        border-width:0px;
+    }
+
+    .tv-div-div-div {
+        margin: auto;
+        vertical-align: middle;
+        text-align:center;
+
+        border-style:solid;
+        border-color:red;
+        border-width:0px;
+    }
+
+
+    .centered, mat-spinner {
+        margin: auto;
+    }
+
+
+    .blink {
+        animation-duration: 1s;
+        animation-name: blink;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+
+    @keyframes blink {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0.3;
+        }
+    }
+
+     .dev-separator {
+         height:5px;
+     }
+
+     .doc-separator {
+         height:10px;
+     }
+</style>
+
+<mat-toolbar style="width:100%" color="primary">
+
+    <mat-toolbar-row>
+        
+        <!--<span>
+            <button mat-menu-item  [matMenuTriggerFor]="settingsMenu" >
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+        </span>-->
+
+        <img src='assets/img/Leaf.png' width="30" style="opacity:0.8"/>
+        &nbsp;
+        <b>mCare</b> &nbsp;&nbsp; <i>premium</i>
+        
+
+        <span class="spacer"></span>
+
+
+        <span>{{patientProfile.fullName}}</span>
+        &nbsp;&nbsp;
+        <img width="40" height="40" src="{{patientProfile.pictureUrl}}" [matMenuTriggerFor]="menu" style="border-radius:40%;" />
+
+        <!--<button mat-menu-item  [matMenuTriggerFor]="menu" >
+            <i class="fas fa-bars"></i>
+        </button>-->
+
+        <!--<button mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+        </button>-->
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="resetEverything()">
+                <i class="fas fa-sync"></i>
+                <span>Reset</span>
+            </button>
+            <button mat-menu-item (click)="closeApp()">
+                <i class="fas fa-window-close"></i>
+                <span>Close</span>
+            </button>
+            <!--<button mat-menu-item (click)="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>-->
+        </mat-menu>
+        
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<table class="main-table">
+    <tr>
+        <td width="20%" class="devices-td">
+
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeReading(sharedService.VITAL_TYPE_SPO2)" [disabled]="takingReadingBool || runningCheckupBool">
+                Blood Oxygen &nbsp;&nbsp; <i class="fas fa-hand-point-right"></i>
+            </button>
+
+            <div class="dev-separator"></div>
+
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeReading(sharedService.VITAL_TYPE_SUGAR)" [disabled]="takingReadingBool || runningCheckupBool">
+                Blood Sugar &nbsp;&nbsp; <i class="fas fa-tint"></i>
+            </button>
+
+            <div class="dev-separator"></div>
+
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeReading(sharedService.VITAL_TYPE_BP)" [disabled]="takingReadingBool || runningCheckupBool">
+                Blood Pressure &nbsp;&nbsp; <i class="fas fa-chart-line"></i>
+            </button>
+            
+            <div class="dev-separator"></div>
+
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeReading(sharedService.VITAL_TYPE_WEIGHT)" [disabled]="takingReadingBool || runningCheckupBool">
+                Body Weight &nbsp;&nbsp; <i class="fab fa-cloudscale"></i>
+            </button>
+            
+            <div class="dev-separator"></div>
+
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeReading(sharedService.VITAL_TYPE_ECG)" [disabled]="takingReadingBool || runningCheckupBool">
+                ECG &nbsp;&nbsp; <i class="fas fa-heartbeat"></i>
+            </button>
+            
+            <!--
+            <div style="height:1px"></div>
+            <button class="vitalDeviceInfo-btn" style="text-align:right" mat-raised-button (click)="takeQuestionnaire()" [disabled]="takingReadingBool">Questionnaire <i class="fas fa-question"></i></button>
+            -->
+
+            <div class="doc-separator"></div>
+            
+            <button *ngIf="eVisitState.IN_AN_EVISIT || lookingUpDoctorsBool" color="accent" class="vitalDeviceInfo-btn" mat-raised-button (click)="cancelEVisit()" [disabled]="takingReadingBool || runningCheckupBool"><b>Cancel EVisit &nbsp;&nbsp; <i class="fas fa-ban"></i></b></button>
+
+            <button *ngIf="!(eVisitState.IN_AN_EVISIT || lookingUpDoctorsBool)" color="primary" class="vitalDeviceInfo-btn" mat-raised-button (click)="findDoctors()" [disabled]="takingReadingBool || runningCheckupBool"><b>Find Doctors &nbsp;&nbsp; <i class="fas fa-user-md"></i></b></button>
+
+        </td>
+        <td width="79%" class="tv-td" #tvTd valign="top">
+
+            <div #tvTopDiv class="tv-top-div">
+
+                <div *ngIf="currTvView == TV_VIEW_HOME && !takingReadingBool" class="tv-div-div">
+                    
+                    <img src="assets/img/homeimg.jpg" [height]="0.8*tvHeight" style="opacity: 0.8;" />
+                    
+                    <br />
+
+                    <button mat-raised-button color="primary" (click)="viewCharts()">
+                        Charts &nbsp;&nbsp; <i class="fas fa-chart-bar"></i>
+                    </button>
+
+                    <button mat-raised-button color="primary" (click)="runChfCheckup()">
+                        Check Up &nbsp;&nbsp; <i class="fas fa-medkit"></i>
+                    </button>
+
+                    <button mat-raised-button color="primary" (click)="takePhoto()">
+                        Take Picture &nbsp;&nbsp; <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+
+                <div *ngIf="currTvView == TV_VIEW_CHECKUP && !takingReadingBool" class="tv-div-div">
+                     <chf-checkup [patientId]="patientProfile.auth0UserId" [auth0Headers]="auth0Headers" [height]="tvHeight - 5" [width]="tvWidth - 5"></chf-checkup>
+                </div>
+
+                <!-- EVISIT VIEWS -->
+                <div *ngIf="currTvView == TV_VIEW_EVISIT_FETCHING_ONLINE_DOCTORS" class="tv-div-div">
+                    <h4>Searching Online Doctors ... </h4>
+                    <br /><br />
+                    <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                </div>
+
+                <div *ngIf="currTvView == TV_VIEW_EVISIT_ONLINE_DOCTORS_LIST_READY" class="tv-div-div">
+                    <h4>Online Doctors <span *ngIf="doctorsProfileList.length > 0">({{doctorsProfileList.length}})</span></h4>
+                    <div *ngIf="doctorsProfileList.length == 0 && fetchingListCompleteBool">
+                        <div class="blink">Preparing List ... </div>
+                        <br />
+                        <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                    </div>
+                    <div *ngIf="doctorsProfileList.length > 0 && fetchingListCompleteBool">
+                        <div *ngFor="let doc of doctorsProfileList" style="padding:5px;">
+                            <button mat-raised-button style="width:50%" (click)="enqueueToThisDoctor(doc)">
+                                <!--<img [src]="doc.picture" width="20"/>-->
+                                {{doc.full_name}} 
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="doctorsEVisitInfoList.length == 0 && fetchingListCompleteBool">
+                        <i class="blink">
+                        No Doctors Online Right Now.
+                        <br />
+                        Please Try Again Later
+                        </i>
+
+                    </div>
+                </div>
+                <div *ngIf="currTvView == TV_VIEW_EVISIT_REQUESTING_LIST_READY" class="tv-div-div" [style.height]="tvHeight">
+                    <h4>Knocking on Doctor's Office Door ...</h4>
+                    <br />
+                    <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                </div>
+                <!--<div *ngIf="currTvView == TV_VIEW_EVISIT_ENTERING_DOCTORS_OFFICE" class="tv-div-div" [style.height]="tvHeight">
+                    <br /><br />
+                    <div class="blink">Entering Doctor's Office ... </div>
+                    <br /><br />
+                    <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                </div>-->
+                <div *ngIf="currTvView == TV_VIEW_EVISIT_IN_WAITING_ROOM" class="tv-div-div" [style.height]="tvHeight">
+                    <h4>In The Waiting Room ...  </h4>
+                    <br />
+                    <div
+                        >Queue Position:
+                        <span *ngIf="currEvisitPosition == -1">
+                            <i class="blink">querying ... </i>
+                        </span>
+                        <span *ngIf="currEvisitPosition > 0">{{currEvisitPosition}}</span>
+                    </div>
+
+                    <div *ngIf="currEvisitPosition == 1" class="blink"><br />You're the next patient ...<br />Waiting on doctor to let you in!</div>
+                </div>
+                <div *ngIf="currTvView == TV_VIEW_EVISIT_IN_SESSION" class="tv-div-div" [style.height]="tvHeight">
+                    <!--<evisit-view [width]="tvWidth" [height]="tvHeight"
+                        [opentokToken]="eVisitState.currOpentokToken"
+                        [opentokSessionId]="eVisitState.currOpentokSessionId"
+                        [opentokApiKey]="eVisitState.currOpentokApiKey">
+                    </evisit-view>-->
+
+                                        
+                    <iframe  allow="geolocation; microphone; camera;" #evisitIFrame frameBorder="0" scrolling="no"></iframe>
+                    
+                </div>
+
+                <!-- VITAL READING VIEWS -->
+                <div *ngIf="currTvView != TV_VIEW_EVISIT_IN_SESSION && takingReadingBool" class="tv-div-div" [style.height]="tvHeight">
+                    <!--<vital-reading-view
+                        (onVitalReadingStateChanged)="onVitalReadingStateChanged"
+                        (setmainTvMessage)="setmainTvMessage" 
+                        [currVitalType]="currVitalType"
+                        [width]="tvWidth" 
+                        [height]="tvHeight"
+                        [vitalDeviceInfo]="deviceListService.noninDeviceInfo"
+                    >   
+                    </vital-reading-view>-->
+                    
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_CHECKING_REGISTRATION" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Checking Registration of a<br />{{currVitalDeviceModelInfo.device_model_number}}</h4>
+                        <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_NOT_REGISTERED" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="100%" height="100%">
+                            <tr>
+                                <td width="60%">
+                                    <h4>{{currVitalDeviceModelInfo.device_model_number}}<br />Is Not Registered With This App</h4>
+                                    Would you like to register<br />a new device?
+                                    <br /><br />
+                                    <button mat-raised-button color="primary" (click)="lookupDevices(currVitalDeviceModelInfo)">Yes</button>
+                                    &nbsp;&nbsp;
+                                    <button mat-raised-button color="warn" (click)="cancelRegistration()">Cancel</button>
+                                </td>
+                                <td width="50%">
+                                    <img [src]="currVitalDeviceModelInfo.device_img_src" width="70%" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_PAIRING_LOOKUP" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="100%" height="100%">
+                            <tr>
+                                <td width="40%">
+                                    <h4>Discovering<br />{{currVitalDeviceModelInfo.device_model_number}}</h4>
+                                    <mat-spinner [diameter]="50" class="centered"></mat-spinner>
+                                    <br />
+                                    <button mat-raised-button color="warn" (click)="cancelRegistration()">Cancel</button>
+                                </td>
+                                <td>
+
+                                    <!--
+                                        To be used when image is available ... 
+                                        <img [src]="currVitalDeviceModelInfo.di_device_comm.di_comm_info.di_pairing_info.di_pairing_instruction.img_src" width="50%" />
+                                    -->
+                                    <img [src]="currVitalDeviceModelInfo.device_img_src" width="30%" />
+                                    <br />
+                                    {{currVitalDeviceModelInfo.di_device_comm.di_comm_info.di_pairing_info.di_pairing_instruction.text}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_SPP_DEVICES_FOUND" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Lookup Complete ... </h4>
+                        <div *ngIf="devicesDiscovered.length > 0">
+                            <div *ngFor="let dev of devicesDiscovered" style="padding:5px;">
+                                <button mat-raised-button style="width:50%" (click)="createBluetoothBond(dev)">
+                                    {{dev.btname}} <i *ngIf="dev.paired">(p)</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="devicesDiscovered.length == 0">
+                            <i class="blink">
+                            No Devices Found ... 
+                            </i>
+                            <br /><br />
+                            <button mat-raised-button color="primary" (click)="lookupDevices(currVitalDeviceModelInfo)">Try Again</button>
+                            &nbsp;&nbsp;
+                            <button mat-raised-button color="warn" (click)="cancelRegistration()">Cancel</button>
+
+                        </div>
+                    </div>
+                    
+
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_BLE_DEVICES_FOUND" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Scanning Complete ... </h4>
+
+                        <div *ngIf="devicesDiscovered.length > 0">
+                            <div *ngFor="let dev of devicesDiscovered" style="padding:5px;">
+                                <button mat-raised-button style="width:50%" (click)="registerDevice(dev)">
+                                    {{dev.btname}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="devicesDiscovered.length == 0">
+                            <i class="blink">
+                            No Devices Found ... 
+                            </i>
+                            <br /><br />
+                            <button mat-raised-button color="primary" (click)="lookupDevices(currVitalDeviceModelInfo)">Try Again</button>
+                            &nbsp;&nbsp;
+                            <button mat-raised-button color="warn" (click)="cancelRegistration()">Cancel</button>
+
+                        </div>
+                    </div>
+
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_PAIRING_FAILED" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Pairing Failed!</h4>
+                        
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_PAIRING_SUCCESS" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Pairing Successful!</h4>
+                        
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_REGISTERING" class="tv-div-div-div" [style.height]="tvHeight">
+                        
+                        <table width="100%" height="100%">
+                            <tr>
+                                <td width="70%">
+                                    <h4>Registering Device ... </h4>
+                                    <mat-spinner [diameter]="50" class="centered"></mat-spinner>                                                                
+                                </td>
+                                <td width="50%">
+                                    <img [src]="currVitalDeviceModelInfo.device_img_src" width="30%" />
+                                    <br />
+                                    <small>{{currRegisteredDeviceInfo.btname}}</small>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_BT_REGISTERED" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="100%" height="100%">
+                            <tr>
+                                <td>
+                                    <h4>Device Registered!</h4>
+                                    <img [src]="currVitalDeviceModelInfo.device_img_src" height="200" />
+                                    <br />
+                                    <small>{{currRegisteredDeviceInfo.btname}}</small>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_CONNECTING" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="95%" height="95%">
+                            <tr>
+                                <td>
+                                    <b>{{currRegisteredDeviceInfo.btname}}</b>
+                                    <br />
+                                    <img [src]="currInstructionImageUrl" [width]="instImgWidth" [height]="instImgHeight" />
+                                    <br />
+                                    <span class="blink">Connecting ... </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_SPP_NOT_PAIRED" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="95%" height="95%">
+                            <tr>
+                                <td>
+                                    <h4>{{currRegisteredDeviceInfo.btname}}
+                                        <br />
+                                        Is Not Paired!
+                                    </h4>
+                                    <button mat-raised-button color="primary" (click)="connectToCurrDevice()">Register</button>
+                                    &nbsp;&nbsp;
+                                    <button mat-raised-button color="warn" (click)="initHome()">Cancel</button>                            
+                                </td>
+                                <td valign="top">
+                                    <img [src]="currVitalDeviceModelInfo.device_img_src" width="30%" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_CONNECTED" class="tv-div-div-div" [style.height]="tvHeight">
+
+                        <table width="95%" height="95%" *ngIf="currVitalType!=sharedService.VITAL_TYPE_ECG" >
+                            <tr>
+                                <td>
+                                    <b>Connected: {{currRegisteredDeviceInfo.btname}}</b>
+                                    <br />
+                                    <img [src]="currInstructionImageUrl" [width]="instImgWidth" [height]="instImgHeight" />
+                                    <br />
+                                    {{vitalReadingMiniMesg}}
+                                </td>
+                            </tr>
+                        </table>
+                        <ecg-view  *ngIf="currVitalType==sharedService.VITAL_TYPE_ECG" [width]="tvWidth" [height]="tvHeight"></ecg-view>
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_FINISHED" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="95%" height="95%">
+                            <tr>
+                                <td>
+                                    <b>Reading Finished</b>
+                                    <br />
+                                    <img [src]="currInstructionImageUrl" [width]="instImgWidth" [height]="instImgHeight" />
+                                    <br />
+                                    {{vitalReadingMiniMesg}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_FINISHED_SHOW_FINAL_READING" class="tv-div-div-div" [style.height]="tvHeight">
+                        <table width="100%" height="100%">
+                            <tr>
+                                <td>
+                                    <h4>Reading Finished</h4>
+                                    <br />
+                                    <span style="font-size:150%;" [innerHTML]="finalReadingMesg"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_TIMEOUT" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>Timed Out</h4>
+                        {{currErrorMesg}}
+                    </div>
+
+
+                    <div *ngIf="currVitalReadingView == VITAL_VIEW_ERROR" class="tv-div-div-div" [style.height]="tvHeight">
+                        <h4>There was an error!</h4>
+                        {{currErrorMesg}}
+                    </div>
+
+
+                </div> 
+            </div>
+
+
+            <div #tvMesgDiv class="tv-mesg-div">{{mainTvMessage}}</div>
+        </td>
+    </tr>
+</table>

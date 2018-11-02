@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1018707146358",
+    "project_id": "sleeppowerathlete"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018707146358:android:68ba0a9414470d04",
+        "android_client_info": {
+          "package_name": "com.qubitnet.sleeppower.athleteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018707146358-9kfp90tda3bbd3po397q56op5v3a8ui9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qubitnet.sleeppower.athleteapp",
+            "certificate_hash": "8bad97ecd943577ca628adee686e485c7c78156b"
+          }
+        },
+        {
+          "client_id": "1018707146358-p0r44j4vue1che5uqm3ohb1qub5ou8d0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB6YPtR4_w-EOhKJRDrIy9QSLx3FCesNE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mwellness.mcare.telemed">
+
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
+    <uses-permission android:name="android.permission.CAPTURE_SECURE_VIDEO_OUTPUT" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
+    <uses-permission android:name="android.webkit.resource.VIDEO_CAPTURE" />
+    <uses-permission android:name="android.webkit.resource.AUDIO_CAPTURE" />
+
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
+
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="true" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.level.full" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.capability.raw" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="true" />
+    <uses-feature android:name="android.hardware.microphone" android:required="true" />
+    <uses-feature android:name="android.hardware.camera2" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+
+
+    <application
+        android:name="com.mwellness.mcare.telemed.app.AMainApp"
+        android:allowBackup="true"
+        android:largeHeap="true"
+        android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="${applicationName}"
+        android:theme="@android:style/Theme.Material">
+        <!--applicationName is defined in build.gradle for app module-->
+
+
+        <activity android:name="com.mwellness.mcare.telemed.bootstrap.auth0.LoginActivity"
+            android:label="${applicationName}"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.auth0.android.lock.LockActivity"
+            android:label="${applicationName}"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyLockTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/auth0_domain"
+                    android:pathPrefix="/android/${manapplicationId}/callback"
+                    android:scheme="qubit" />
+                    <!--manapplicationId is defined in build.gradle for app module-->
+
+            </intent-filter>
+        </activity>
+
+
+
+        <activity
+            android:name="com.mwellness.mcare.telemed.app.AMainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="${applicationName}"
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
+            android:stateNotNeeded="true">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
+
+        <activity
+            android:name="com.mwellness.mcare.telemed.vitals.nfc.freestyle.AbbottActivity"
+            android:label="Reading Freestyle Tag"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Dialog">
+
+
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:category="android.intent.category.DEFAULT"
+                android:resource="@xml/nfc_tech_filter" />
+
+        </activity>
+
+
+        <service android:name="com.mwellness.mcare.telemed.app.AMainServiceTelemedMobile" />
+
+
+        <!-- <receiver android:name="com.qubitmed.android.bootstbluetoothInfoooth.BluetoothBroadcastReceiver" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="andrbluetoothInfoooth.adapter.action.CONNECTION_STATE_CHANGED" /> -->
+        <!-- <action android:name="android.bluetovitalDeviceInfovice.action.ACL_CONNECTED" /> -->
+        <!-- <action android:name="android.bluetovitalDeviceInfovice.action.ACL_DISCONNECTED" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
+        <receiver android:name="com.mwellness.mcare.telemed.app.AMainMobileBatteryReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+
+
+
+
+    </application>
+
+
+</manifest>
